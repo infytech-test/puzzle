@@ -1,0 +1,8 @@
+
+1. <Img tag missing the alt attribute in 2 places
+2. Color contrast Issue in 2 places
+
+	1. Header background color contrast - changed the color to pink-dark
+	2. color contrast for the text "Try searching for a topic, for example"  - Changed to gray-60
+	
+3. Issue with search logic -  Entering any character in the input field shows the same result of the previous search

@@ -5,11 +5,15 @@ import * as BooksActions from './books.actions';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Book } from '@tmo/shared/models';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 
 @Injectable()
 export class BooksEffects {
+  readonly debounceTimeDelay:number = 500; // 500ms
   searchBooks$ = createEffect(() =>
     this.actions$.pipe(
+      debounceTime(this.debounceTimeDelay),
+      distinctUntilChanged(),
       ofType(BooksActions.searchBooks),
       fetch({
         run: action => {

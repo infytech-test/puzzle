@@ -42,7 +42,13 @@ export class ReadingListComponent implements OnInit {
   }
 
   undoReadingList(item) {
-    const index = this.books.findIndex(x => x.id === item.bookId);
-    this.store.dispatch(addToReadingList({ book: this.books[index] }));
+    if (
+      item.bookId !== null &&
+      item.bookId !== undefined &&
+      item.bookId !== ''
+    ) {
+      const index = this.books.findIndex(x => x.id === item.bookId);
+      this.store.dispatch(addToReadingList({ book: this.books[index] }));
+    }
   }
 }

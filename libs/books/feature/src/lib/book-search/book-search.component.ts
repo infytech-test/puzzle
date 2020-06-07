@@ -68,8 +68,12 @@ export class BookSearchComponent implements OnInit {
   }
 
   undoReadingList(book: Book) {
-    const index = this.listItems.findIndex(x => x.bookId === book.id);
-    this.store.dispatch(removeFromReadingList({ item: this.listItems[index] }));
+    if (book.id !== null && book.id !== undefined && book.id !== '') {
+      const index = this.listItems.findIndex(x => x.bookId === book.id);
+      this.store.dispatch(
+        removeFromReadingList({ item: this.listItems[index] })
+      );
+    }
   }
 
   searchExample() {

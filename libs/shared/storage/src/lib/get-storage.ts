@@ -8,6 +8,7 @@ export function getStorage(): Storage {
   } else if (typeof process !== 'undefined') {
     const LocalStorage = require('node-localstorage').LocalStorage;
     localStorage = new LocalStorage('./scratch');
+    //localStorage._deleteLocation();
   } else {
     throw new Error('Unsupported environment');
   }

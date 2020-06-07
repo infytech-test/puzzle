@@ -18,6 +18,7 @@ export class ReadingListComponent implements OnInit {
   books: ReadingListBook[];
   readingList$ = this.store.select(getReadingList);
   readonly snackBarDelay: number = 3000; // 3000ms
+  isFinished = true;
 
   constructor(private readonly store: Store, private _snackBar: MatSnackBar) {}
 

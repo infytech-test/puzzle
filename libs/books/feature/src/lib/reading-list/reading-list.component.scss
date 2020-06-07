@@ -11,7 +11,6 @@
 .reading-list-item {
   display: flex;
   justify-content: center;
-  margin-bottom: $spacing-xs;
   width: 100%;
 
   > * {
@@ -44,4 +43,16 @@
   font-weight: 100;
   font-size: 1rem;
   color: $gray60;
+}
+
+.finished-item {
+  display: flex;
+  margin-bottom: $spacing-xs;
+  border-bottom: 1px solid gray;
+
+  > * {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }

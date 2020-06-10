@@ -33,7 +33,8 @@
         <button
           mat-icon-button
           [attr.aria-label]="'Finished reading' + b.title"
-          [ngStyle]="{ 'color': (isFinished ? 'green' : 'gray') }"
+          (click)="updateReadingStatus(b)"
+          [ngStyle]="{ 'color': (b.finished ? 'green' : 'gray') }"
         >
           <mat-icon>check_circle_outline</mat-icon>
         </button>

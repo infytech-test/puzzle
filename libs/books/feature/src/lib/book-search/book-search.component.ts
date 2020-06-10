@@ -23,6 +23,7 @@ export class BookSearchComponent implements OnInit {
   listItems: ReadingListItem[];
   readingList$ = this.store.select(getReadingList);
   readonly snackBarDelay: number = 3000; // 3000ms
+  showSpinner = false;
 
   searchForm = this.fb.group({
     term: ''
@@ -45,6 +46,7 @@ export class BookSearchComponent implements OnInit {
     this.store.select(getReadingList).subscribe(listItems => {
       this.listItems = listItems;
     });
+    this.showSpinner = false;
   }
 
   formatDate(date: void | string) {
@@ -82,10 +84,14 @@ export class BookSearchComponent implements OnInit {
   }
 
   searchBooks() {
+    this.showSpinner = true;
     if (this.searchForm.value.term) {
       this.store.dispatch(searchBooks({ term: this.searchTerm }));
     } else {
       this.store.dispatch(clearSearch());
     }
+    setTimeout(() => {
+      this.showSpinner = false;
+    }, 1000);
   }
 }

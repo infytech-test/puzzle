@@ -5,9 +5,12 @@ import {
   removeFromReadingList,
   ReadingListBook,
   getAllBooks,
-  addToReadingList
+  addToReadingList,
+  updateBookStatus
 } from '@tmo/books/data-access';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ReadingListItem } from '@tmo/shared/models';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'tmo-reading-list',
@@ -16,6 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ReadingListComponent implements OnInit {
   books: ReadingListBook[];
+  itemUpdated: ReadingListItem;
   readingList$ = this.store.select(getReadingList);
   readonly snackBarDelay: number = 3000; // 3000ms
   isFinished = true;
@@ -43,13 +47,18 @@ export class ReadingListComponent implements OnInit {
   }
 
   undoReadingList(item) {
-    if (
-      item.bookId !== null &&
-      item.bookId !== undefined &&
-      item.bookId !== ''
-    ) {
-      const index = this.books.findIndex(x => x.id === item.bookId);
-      this.store.dispatch(addToReadingList({ book: this.books[index] }));
-    }
+    const index = this.books.findIndex(x => x.id === item.bookId);
+    this.store.dispatch(addToReadingList({ book: this.books[index] }));
+  }
+
+  updateReadingStatus(item) {
+    const params: Update<ReadingListItem> = {
+      id: item.bookId,
+      changes: {
+        finished: true,
+        finishedDate: '' + new Date().toISOString()
+      }
+    };
+    this.store.dispatch(updateBookStatus({ item: params }));
   }
 }

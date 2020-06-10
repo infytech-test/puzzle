@@ -73,3 +73,19 @@ form {
   font-size: 1.5rem;
   color: $gray60;
 }
+
+.spinner {
+  mat-spinner {
+    position: absolute;
+    top: 44vh;
+    margin: auto;
+    left: 47%;
+    @media (max-width: 767px) {
+      left: 44%;
+    }
+  }
+
+  .mat-spinner::ng-deep circle {
+    stroke: $pink-dark;
+  }
+}

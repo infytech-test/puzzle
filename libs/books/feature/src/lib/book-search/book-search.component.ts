@@ -70,12 +70,10 @@ export class BookSearchComponent implements OnInit {
   }
 
   undoReadingList(book: Book) {
-    if (book.id !== null && book.id !== undefined && book.id !== '') {
       const index = this.listItems.findIndex(x => x.bookId === book.id);
       this.store.dispatch(
         removeFromReadingList({ item: this.listItems[index] })
       );
-    }
   }
 
   searchExample() {
@@ -93,5 +91,13 @@ export class BookSearchComponent implements OnInit {
     setTimeout(() => {
       this.showSpinner = false;
     }, 1000);
+  }
+
+  checkFinishedStatus(b) {
+    const index = this.listItems.findIndex(x => x.bookId === b.id);
+    console.log("index "+ index);
+    if(index >=0 && this.listItems[index].finished === true)
+      return true;
+    return false;
   }
 }

@@ -76,6 +76,7 @@ form {
 
 .spinner {
   mat-spinner {
+    z-index: 100;
     position: absolute;
     top: 44vh;
     margin: auto;

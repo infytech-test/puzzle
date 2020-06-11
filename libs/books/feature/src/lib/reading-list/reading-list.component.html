@@ -27,7 +27,8 @@
     </div>
     <div class="finished-item">
       <div>
-        <strong>Finished reading?</strong>
+        <p *ngIf="!b.finished">Finished reading? click here</p>
+        <p *ngIf="b.finished">Finished</p>
       </div>
       <div>
         <button

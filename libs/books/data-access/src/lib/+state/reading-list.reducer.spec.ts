@@ -34,21 +34,33 @@ describe('Books Reducer', () => {
     });
 
     it('failedAddToReadingList should undo book addition to the state', () => {
+
+      const previousState = readingListAdapter.setAll(
+        [createReadingListItem('A')],
+        initialState
+      );
+
       const action = ReadingListActions.failedAddToReadingList({
         book: createBook('B')
       });
 
-      const result: State = reducer(state, action);
+      const result: State = reducer(previousState, action);
 
       expect(result.ids).to.eql(['A']);
     });
 
     it('failedRemoveFromReadingList should undo book removal from the state', () => {
+
+      const previousState = readingListAdapter.setAll(
+        [createReadingListItem('A'),createReadingListItem('B'), createReadingListItem('C')],
+        initialState
+      );
+
       const action = ReadingListActions.failedRemoveFromReadingList({
         item: createReadingListItem('C')
       });
 
-      const result: State = reducer(state, action);
+      const result: State = reducer(previousState, action);
 
       expect(result.ids).to.eql(['A', 'B', 'C']);
     });

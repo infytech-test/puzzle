@@ -9,6 +9,7 @@ import { createBook, SharedTestingModule } from '@tmo/shared/testing';
 import { BooksEffects } from './books.effects';
 import * as BooksActions from './books.actions';
 import { HttpTestingController } from '@angular/common/http/testing';
+import { debounceTime } from 'rxjs/operators';
 
 describe('BooksEffects', () => {
   let actions: ReplaySubject<any>;
@@ -33,7 +34,7 @@ describe('BooksEffects', () => {
   describe('loadBooks$', () => {
     it('should work', done => {
       actions = new ReplaySubject();
-      actions.next(BooksActions.searchBooks({ term: '' }));
+      actions.next(BooksActions.searchBooks({ term: 'b' }));
 
       effects.searchBooks$.subscribe(action => {
         expect(action).to.eql(
@@ -42,7 +43,10 @@ describe('BooksEffects', () => {
         done();
       });
 
-      httpMock.expectOne('/api/books/search?q=').flush([createBook('A')]);
+      setTimeout(() => {
+        httpMock.expectOne('/api/books/search?q=b').flush([createBook('A')]);
+        done();
+      }, 500);
     });
   });
 });

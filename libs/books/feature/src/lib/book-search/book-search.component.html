@@ -24,7 +24,7 @@
       </div>
       <div class="book--content">
         <div class="book--content--cover">
-          <img src="{{ b.coverUrl }}" alt="book cover" />
+          <img src="{{ b.coverUrl }}" [attr.alt]="'book cover' + b.title" />
         </div>
         <div class="book--content--info">
           <div><strong>Author:</strong> {{ b.authors.join(',') }}</div>
@@ -37,10 +37,15 @@
             <button
               mat-flat-button
               color="primary"
+              [ngStyle]="{
+                'backgroundColor': checkFinishedStatus(b) ? 'green': '',
+                'color': checkFinishedStatus(b) ? 'white': ''
+              }"
               (click)="addBookToReadingList(b)"
               [disabled]="b.isAdded"
             >
-              Want to Read
+            <span *ngIf="!checkFinishedStatus(b)">Want to read</span>
+            <span *ngIf="checkFinishedStatus(b)">Finished</span>
             </button>
           </div>
         </div>

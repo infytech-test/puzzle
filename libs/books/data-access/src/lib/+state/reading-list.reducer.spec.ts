@@ -6,7 +6,12 @@ import {
   reducer,
   State
 } from './reading-list.reducer';
-import { createBook, createReadingListItem } from '@tmo/shared/testing';
+import {
+  createBook,
+  createReadingListItem,
+  createUpdateItem
+} from '@tmo/shared/testing';
+import { Update } from '@ngrx/entity';
 
 describe('Books Reducer', () => {
   describe('valid Books actions', () => {
@@ -34,7 +39,6 @@ describe('Books Reducer', () => {
     });
 
     it('failedAddToReadingList should undo book addition to the state', () => {
-
       const previousState = readingListAdapter.setAll(
         [createReadingListItem('A')],
         initialState
@@ -50,9 +54,12 @@ describe('Books Reducer', () => {
     });
 
     it('failedRemoveFromReadingList should undo book removal from the state', () => {
-
       const previousState = readingListAdapter.setAll(
-        [createReadingListItem('A'),createReadingListItem('B'), createReadingListItem('C')],
+        [
+          createReadingListItem('A'),
+          createReadingListItem('B'),
+          createReadingListItem('C')
+        ],
         initialState
       );
 
@@ -63,6 +70,19 @@ describe('Books Reducer', () => {
       const result: State = reducer(previousState, action);
 
       expect(result.ids).to.eql(['A', 'B', 'C']);
+    });
+
+    it('updateBookStatus should update book status to finished', () => {
+      const updateItem = createUpdateItem('A');
+      const action = ReadingListActions.updateBookStatus({
+        item: updateItem
+      });
+
+      const result = reducer(initialState, action);
+      expect(action.item.changes.finished).to.eql(
+        ReadingListActions.confirmedUpdateBookStatus({ item: updateItem }).item
+          .changes.finished
+      );
     });
   });
 

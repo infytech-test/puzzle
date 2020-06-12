@@ -4,7 +4,11 @@ import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { DataPersistence, NxModule } from '@nrwl/angular';
-import { SharedTestingModule } from '@tmo/shared/testing';
+import {
+  SharedTestingModule,
+  createUpdateItem,
+  createUpdatedListItem
+} from '@tmo/shared/testing';
 
 import { ReadingListEffects } from './reading-list.effects';
 import * as ReadingListActions from './reading-list.actions';
@@ -43,6 +47,27 @@ describe('ToReadEffects', () => {
       });
 
       httpMock.expectOne('/api/reading-list').flush([]);
+    });
+
+    it('It should mark the book as finished successfully', done => {
+      const updateItem = createUpdateItem('A');
+      const updatedListItem = createUpdatedListItem('A');
+      actions = new ReplaySubject();
+      actions.next(
+        ReadingListActions.updateBookStatus({
+          item: updateItem
+        })
+      );
+
+      effects.updateBook$.subscribe(action => {
+        expect(action).to.eql(
+          ReadingListActions.confirmedUpdateBookStatus({ item: updateItem })
+        );
+        done();
+      });
+      httpMock
+        .expectOne('/api/reading-list/A/finished')
+        .flush([updatedListItem]);
     });
   });
 });

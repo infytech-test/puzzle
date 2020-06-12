@@ -95,7 +95,6 @@ export class BookSearchComponent implements OnInit {
 
   checkFinishedStatus(b) {
     const index = this.listItems.findIndex(x => x.bookId === b.id);
-    console.log("index "+ index);
     if(index >=0 && this.listItems[index].finished === true)
       return true;
     return false;

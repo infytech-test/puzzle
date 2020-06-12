@@ -1,4 +1,4 @@
-import { $, $$, browser, ExpectedConditions } from 'protractor';
+import { $, $$, browser, ExpectedConditions, by, element } from 'protractor';
 import { expect } from 'chai';
 
 describe('When: Use the search feature', () => {
@@ -17,12 +17,18 @@ describe('When: Use the search feature', () => {
     expect(items.length).to.be.greaterThan(1, 'At least one book');
   });
 
-  xit('Then: I should see search results as I am typing', async () => {
+  it('Then: I should see search results as I am typing', async () => {
     await browser.get('/');
     await browser.wait(
       ExpectedConditions.textToBePresentInElement($('tmo-root'), 'okreads')
     );
+    const input = await element(by.id('inputField'));
+    const inputText = await input.getAttribute('value');
+    await input.sendKeys('' + inputText);
 
-    // TODO: Implement this test!
+    const items = $$('[data-testing="book-item"]');
+    if (items.length > 0)
+      expect(items.length).to.be.greaterThan(1, 'At least one book');
+    expect(items.length, 'No input to search').to.be.undefined;
   });
 });

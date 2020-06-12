@@ -23,8 +23,10 @@ describe('When: Use the search feature', () => {
       ExpectedConditions.textToBePresentInElement($('tmo-root'), 'okreads')
     );
     const input = await element(by.id('inputField'));
-    const inputText = await input.getAttribute('value');
-    await input.sendKeys('' + inputText);
+    let inputText = await input.getAttribute('value');
+
+    if (inputText === undefined || inputText === '') inputText = 'test book';
+    await input.sendKeys(inputText);
 
     const items = $$('[data-testing="book-item"]');
     if (items.length > 0)

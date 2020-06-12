@@ -40,6 +40,8 @@ export function createUpdatedListItem(bookId: string): ReadingListItem {
     description: '',
     authors: [`Author ${bookId}`],
     coverUrl: '',
-    publishedDate: new Date(2020, 0, 1).toISOString()
+    publishedDate: new Date(2020, 0, 1).toISOString(),
+    finished: true,
+		finishedDate: '2020-06-12T11:22:06.216Z'
   };
 }
